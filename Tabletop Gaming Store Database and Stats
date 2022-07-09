@@ -1,0 +1,17 @@
+CREATE TABLE store (id INTEGER PRIMARY KEY, name TEXT, price INTEGER, stock INTEGER);
+
+INSERT INTO store VALUES
+(1, 'dice', 5, 200),
+(2, 'books', 50, 20),
+(3, 'tiles', 40, 10),
+(4, 'monthly subscription', 5, 100),
+(5, 'yearly subscription', 45, 100)
+;
+
+SELECT * FROM store;
+
+SELECT * FROM store
+ORDER BY price
+;
+
+SELECT SUM(stock) from store
