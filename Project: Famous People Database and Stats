@@ -1,0 +1,84 @@
+** This project was completed as a part of Khan Academy's Intro to SQL course. I created a two tables about actors, which included data about the celebrity's 
+name, age and the characters they played. Additionally, I used a JOIN function to display information from both tables. At the end is a table combining multiple 
+joins to id married couples.**
+
+CREATE TABLE actors
+    (id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    name TEXT, 
+    age INTEGER);
+
+INSERT INTO actors (name, age) VALUES
+    ("Matthew Mercer", 40),
+    ("Ashley Johnson", 38),
+    ("Travis Willingham", 40),
+    ("Laura Bailey", 41),
+    ("Liam O'brian", 46),
+    ("Talison Jaffe", 45),
+    ("Marisha Ray", 33), 
+    ("Sam Riegal", 45);
+
+SELECT * FROM actors;
+
+CREATE TABLE character
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_id INTEGER,
+    character_name TEXT,
+    campaign INTEGER);
+
+INSERT INTO character (player_id, character_name, campaign) VALUES
+    (1, "Dungeon Master", 1),
+    (1, "Dungeon Master", 3),
+    (1, "Dungeon Master", 2),
+    (2, "Pike Trickfoot", 1),
+    (2, "Yasha Nydoorin", 2),
+    (2, "Fearne Calloway", 3),
+    (3, "Grog Stongjaw", 1),
+    (3, "Fjord Stone", 2),
+    (3, "Chetney Pock O'Pea", 3),
+    (4, "Vex", 1),
+    (4, "Jester Lavorre", 2),
+    (4, "Imogen Temult",3),
+    (5, "Vax", 1),
+    (5, "Caleb Widogast", 2),
+    (5, "Orym of the Air Ashari",3),
+    (6, "Percy", 1),
+    (6, "Molly", 2),
+    (6, "Caduceus Clay", 2),
+    (6, "Ashton Greymoore", 3),
+    (7, "Keyleth of the Air Ashari", 1),
+    (7, "Beaurgard Lionett", 2),
+    (7, "Laudna", 3),
+    (8, "Scanlan Shorthalt", 1),
+    (8, "Taryon Darrington", 1),
+    (8, "Nott the Brave", 2),
+    (8, "Fresh Cut Grass", 3);
+    
+SELECT * FROM character;
+
+/* Combining the tables to show what character each player has played */ 
+
+SELECT actors.name, ch.character_name, ch.campaign FROM character ch
+    JOIN actors
+    ON ch.player_id = actors.id;
+    
+SELECT actors.name, ch.character_name, ch.campaign FROM character ch
+    JOIN actors
+    ON ch.player_id = actors.id
+    WHERE ch.campaign = 2 AND name = 'Talison Jaffe';
+    
+CREATE TABLE couples 
+    (id INTEGER PRIMARY KEY,
+    couple1_id INTEGER,
+    couple2_id INTEGER);
+    
+INSERT INTO couples(couple1_id, couple2_id) VALUES
+    (1, 7),
+    (3, 4);
+    
+/*Combining multiple joins*/
+    
+SELECT a.name, b.name AS 'married to' FROM couples
+    JOIN actors a
+    ON couples.couple1_id = a.id
+    JOIN actors b
+    ON couples.couple2_id = b.id;
