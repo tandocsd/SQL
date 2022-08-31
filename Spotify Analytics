@@ -1,0 +1,58 @@
+--For this project, I downloaded Spotify data from Kaggle.
+--Then I created a table to insert Spotify data into.
+--Finally, I performed analytics on the data using SQL. 
+
+--Creating the table: 
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL 
+)
+
+--Then I inserted the Spotify Data .csv into the table.
+--Next, I explored the data using the following SQL. 
+
+--What is the average danceability by artist and track?
+SELECT artist_name, track_name, avg(danceability) FROM BIT_DB.spotifydata
+    GROUP BY artist_name, track_name
+    ORDER BY danceability DESC;
+
+--Who are the top 10 artists based on popularity?
+SELECT artist_name, popularity from BIT_DB.Spotifydata
+    LIMIT 10;
+    
+--What artist released the longest song?
+SELECT artist_name, duration_ms from BIT_DB.Spotifydata
+    ORDER BY duration_ms DESC
+    LIMIT 1;
+    
+--What's the average danceability for the 10 most popular songs?
+SELECT track_name, avg(danceability) FROM BIT_DB.spotifydata
+    GROUP BY track_name
+    ORDER BY popularity DESC
+    LIMIT 10;
+    
+--For every artist with an average popularity of 90 or above, you need to show their name, their average popularity, and label them as a “Top Star”
+With popularity_average_CTE AS(
+    SELECT s.artist_name, AVG(s.popularity) AS average_popularity
+    FROM Spotifydata s
+    GROUP BY s.artist_name
+    )
+SELECT artist_name, average_popularity, 'Top Star' AS tag
+FROM popularity_average_CTE
+WHERE average_popularity>=90;
