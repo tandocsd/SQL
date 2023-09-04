@@ -83,4 +83,3 @@ SELECT name, MAX(strength) as "Strongest" FROM Marvels
 SELECT name, MIN(strength) as "Weakest" FROM Marvels
    GROUP BY name
    HAVING strength <= 2;
-
